@@ -15,13 +15,12 @@
             <input type="hidden" name="options" :value="computeOptions">
 
             <span v-for="option in options">
-              <p>@{{option.id+1}}.@{{ option.title }}</p>
+              <p><b>@{{option.id+1}}.@{{ option.title }}</b></p>
                   <div :id="'question'+option.id">
                     <div v-for="answer in option.answers">
                       <input :type="option.type" :name="'answer'+option.id" :id="'answer_'+option.id+'_'+answer.id" :value="answer.id" v-model="votes[option.id]">
-                      <label :for="'question'+answer.id">@{{ answer.title+'['+answer.count+']' }}</label>
+                      <label :for="'question'+answer.id">@{{ answer.title}} <i>@{{'['+answer.count+']' }}</i></label>
                     </div>
-                    Выбрано: @{{ '('+votes[option.id]+')' }}
                   </div>
                 <hr>
             </span>

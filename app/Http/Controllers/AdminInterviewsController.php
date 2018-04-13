@@ -98,11 +98,11 @@
 						$print = '';//вывод
 						//dd($row->attach;);
 						$print .= '<table style="width:35%" border="2">';
-						$print .= '<tr><td colspan="2">Опрос: '.$row->title.'</td></tr>';
+						$print .= '<tr><tdcolspan="2">Опрос: '.$row->title.'</td></tr>';
 						foreach ($question as $q) {
 							$print .= '<tr><td colspan="2">Вопрос #'.($q->id+1).': '.$q->title.'</td></tr>';
 							foreach ($q->answers as $a) {
-								$print .= '<tr><td>'.$a->title.'</td><td>'.$a->count.'</td></tr>';
+								$print .= '<tr><td style="width:85%" >'.$a->title.'</td><td>'.$a->count.'</td></tr>';
 								# code...
 							}
 						}
