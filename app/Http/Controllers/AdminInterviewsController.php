@@ -7,6 +7,20 @@
 
 	class AdminInterviewsController extends \crocodicstudio\crudbooster\controllers\CBController {
 
+		public function getStats() {
+			//Create an Auth
+			if(!CRUDBooster::isRead() && $this->global_privilege==FALSE || $this->button_edit==FALSE) {
+				CRUDBooster::redirect(CRUDBooster::adminPath(),trans("crudbooster.denied_access"));
+			}
+
+			$data = [];
+			$data['page_title'] = 'Статистика';
+			$data['row'] = DB::table('interviews')->get();
+
+			//Please use cbView method instead view method from laravel
+			$this->cbView('interviewStats',$data);
+		}
+
 			public function getAdd() {
 			  //Create an Auth
 			  if(!CRUDBooster::isCreate() && $this->global_privilege==FALSE || $this->button_add==FALSE) {
@@ -46,6 +60,12 @@
 
 			  //Please use cbView method instead view method from laravel
 			  $this->cbView('interviewDetail',$data);
+
+				/*$data['page_title'] = 'Статистика';
+				$data['row'] = DB::table('interviews')->get();
+
+				//Please use cbView method instead view method from laravel
+				$this->cbView('interviewStats',$data);*/
 			}
 
 	    public function cbInit() {
@@ -72,6 +92,24 @@
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
 			$this->col[] = ["label"=>"Заголовок","name"=>"title"];
+			$this->col[] = ["label"=>"Статистика","name"=>"options", 'callback' => function($row)
+					{
+						$question = json_decode($row->options);//полученный результат
+						$print = '';//вывод
+						//dd($row->attach;);
+						$print .= '<table style="width:35%" border="2">';
+						$print .= '<tr><td colspan="2">Опрос: '.$row->title.'</td></tr>';
+						foreach ($question as $q) {
+							$print .= '<tr><td colspan="2">Вопрос #'.($q->id+1).': '.$q->title.'</td></tr>';
+							foreach ($q->answers as $a) {
+								$print .= '<tr><td>'.$a->title.'</td><td>'.$a->count.'</td></tr>';
+								# code...
+							}
+						}
+						$print .= '</table>';
+						return $print;//$row->attach;
+						//return print_r($question, true);//$row->attach;
+					}];//$this->cbView('interviewStats',array('page_title'=>'Статистика','row'=>DB::table('interviews')->get()))
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			//$custom_element = view('interview')->render();
