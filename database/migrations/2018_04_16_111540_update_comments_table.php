@@ -14,7 +14,8 @@ class UpdateCommentsTable extends Migration
     public function up()
     {
         Schema::table('comments', function (Blueprint $table) {
-            $table->text('answer')->nullable();
+            $table->boolean('answered')->nullable()->change();
+            $table->boolean('published')->nullable()->change();
         });
     }
 

@@ -15,6 +15,7 @@ class UpdateVideosTable extends Migration
     {
         Schema::table('videos', function (Blueprint $table) {
             $table->string('video')->nullable()->change();
+            $table->string('URL')->nullable()->change();
         });
     }
 

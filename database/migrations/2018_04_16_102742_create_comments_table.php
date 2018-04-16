@@ -37,6 +37,7 @@ class CreateCommentsTable extends Migration
             $table->string('comment');
             $table->boolean('answered');
             $table->boolean('published');
+            $table->text('answer')->nullable();
             $table->timestamps();
         });
     }
