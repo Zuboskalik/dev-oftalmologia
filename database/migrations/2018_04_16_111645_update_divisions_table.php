@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateVideosTable extends Migration
+class UpdateDivisionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateVideosTable extends Migration
      */
     public function up()
     {
-        Schema::table('videos', function (Blueprint $table) {
-            $table->string('URL')->nullable()->change();
+        Schema::table('divisions', function (Blueprint $table) {          
+            $table->foreign('chief_id')->references('id')->on('specialists')->nullable()->change();
         });
     }
 
@@ -25,7 +25,7 @@ class UpdateVideosTable extends Migration
      */
     public function down()
     {
-        Schema::table('videos', function (Blueprint $table) {
+        Schema::table('divisions', function (Blueprint $table) {
             //
         });
     }

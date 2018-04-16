@@ -10,20 +10,18 @@
         <div class='form-group'>
 
           <div id="details">
-            <div v-for="object in objects">
-              <h3>Опрос @{{'"'+object.title+'"'}}</h3><br>
-              <span v-for="option in object.options">
-                <p><b>Вопрос "@{{ option.title }}":</b></p>
-                <div :id="'question'+option.id">
-                  Ответы:
-                  <li  v-for="answer in option.answers">
-                    @{{ answer.title+' ->'}} <i>@{{ 'Ответов: '+answer.count}}</i>
-                  </li >
-                </div>
-                <br>
-              </span>
+            <!--<div v-for="object in objects">-->
+              <h3>Опрос @{{'"'+title+'"'}}</h3><br>
+              <table v-for="q in options" style="width:35%" border="2">
+  							<tr>
+                  <td colspan="2"> @{{'Вопрос #'+q.id+': '+q.title}}</td>
+                </tr>
+								<tr v-for="a in q.answers">
+                  <td style="width:75%" >@{{a.title}}</td><td>@{{a.count}}</td>
+                </tr>
+  						</table>
               <hr>
-            </div>
+            <!--</div>-->
 
           </div>
         <!-- etc .... -->
@@ -40,42 +38,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
 
   <script>
-  String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.split(search).join(replacement);
-  };
-
   var app = new Vue({
       el: '#details',
 
       created: function(){
-        var rowstr = '{!! $row !!}';
+        this.title = '{!! $row->title !!}'
+        this.options = JSON.parse('{!! $row->options !!}')
 
-        rowstr = rowstr.replaceAll( '"[','[');
-        rowstr = rowstr.replaceAll(']"',']');
-
-        console.log(rowstr)
-
-        this.objects = JSON.parse(rowstr);
-
-        console.log(this.objects)
-
-        var dis = this;
-
-        /*dis.objects.forEach(function(currentValue, index, array) {
-          //dis.votes[currentValue.id] = {};
-          currentValue.options.forEach(function(currentValueA, indexA, arrayA) {
-            //dis.votes[currentValue.id][currentValueA.id] = currentValueA.count;
-            console.log('currentValueA', currentValueA)
-          });
-        });*/
+        console.log(this.options)
       },
 
       computed: {
       },
 
       data: {
-        objects: [],
+        title: '',
+        options: [],
       },
 
       methods:{

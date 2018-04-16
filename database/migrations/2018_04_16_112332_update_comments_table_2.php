@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateDivisionsTableForChiefId extends Migration
+class UpdateCommentsTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class UpdateDivisionsTableForChiefId extends Migration
      */
     public function up()
     {
-        Schema::table('divisions', function (Blueprint $table) {
-            //
+        Schema::table('comments', function (Blueprint $table) {
+          $table->boolean('answered')->nullable()->change();
+          $table->boolean('published')->nullable()->change();
         });
     }
 
@@ -25,7 +26,8 @@ class UpdateDivisionsTableForChiefId extends Migration
      */
     public function down()
     {
-        Schema::table('divisions', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
+            //
         });
     }
 }

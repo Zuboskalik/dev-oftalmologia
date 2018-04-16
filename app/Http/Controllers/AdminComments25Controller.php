@@ -5,61 +5,12 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminInterviewsController extends \crocodicstudio\crudbooster\controllers\CBController {
-
-
-			public function getAdd() {
-			  //Create an Auth
-			  if(!CRUDBooster::isCreate() && $this->global_privilege==FALSE || $this->button_add==FALSE) {
-			    CRUDBooster::redirect(CRUDBooster::adminPath(),trans("crudbooster.denied_access"));
-			  }
-
-			  $data = [];
-			  $data['page_title'] = 'Добавить опрос';
-			  $this->cbView('interviewAdd',$data);//Please use cbView method instead view method from laravel
-			}
-
-			public function getEdit($id) {
-			  //Create an Auth
-			  if(!CRUDBooster::isUpdate() && $this->global_privilege==FALSE || $this->button_edit==FALSE) {
-			    CRUDBooster::redirect(CRUDBooster::adminPath(),trans("crudbooster.denied_access"));
-			  }
-
-			  $data = [];
-			  $data['page_title'] = 'Редактировать';
-			  $data['row'] = DB::table('interviews')->where('id',$id)->first();
-			  $this->cbView('interviewEdit',$data);//Please use cbView method instead view method from laravel
-			}
-
-			public function getDetail($id) {
-			  //Create an Auth
-			  if(!CRUDBooster::isRead() && $this->global_privilege==FALSE || $this->button_edit==FALSE) {
-			    CRUDBooster::redirect(CRUDBooster::adminPath(),trans("crudbooster.denied_access"));
-			  }
-
-			  $data = [];
-			  $data['page_title'] = 'Просмотр';
-			  $data['row'] = DB::table('interviews')->where('id',$id)->first();
-			  $this->cbView('interviewStats',$data);//Please use cbView method instead view method from laravel
-			}
-
-
-			public function getVote($id) {
-				//Create an Auth
-				if(!CRUDBooster::isRead() && $this->global_privilege==FALSE || $this->button_show==FALSE) {
-					CRUDBooster::redirect(CRUDBooster::adminPath(),trans("crudbooster.denied_access"));
-				}
-
-				$data = [];
-				$data['page_title'] = 'Голосование';
-				$data['row'] = DB::table('interviews')->where('id',$id)->first();
-				$this->cbView('interviewDetail',$data);
-			}
+	class AdminComments25Controller extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "title";
+			$this->title_field = "name";
 			$this->limit = "20";
 			$this->orderby = "id,desc";
 			$this->global_privilege = false;
@@ -74,45 +25,34 @@
 			$this->button_filter = true;
 			$this->button_import = false;
 			$this->button_export = false;
-			$this->table = "interviews";
+			$this->table = "comments";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"Заголовок","name"=>"title"];
-			/*$this->col[] = ["label"=>"Статистика","name"=>"options", 'callback' => function($row)
-					{
-						$question = json_decode($row->options);//полученный результат
-						$print = '';//вывод
-						//dd($row->attach;);
-						$print .= '<table style="width:35%" border="2">';
-						$print .= '<tr><tdcolspan="2">Опрос: '.$row->title.'</td></tr>';
-						foreach ($question as $q) {
-							$print .= '<tr><td colspan="2">Вопрос #'.($q->id+1).': '.$q->title.'</td></tr>';
-							foreach ($q->answers as $a) {
-								$print .= '<tr><td style="width:75%" >'.$a->title.'</td><td>'.$a->count.'</td></tr>';
-								# code...
-							}
-						}
-						$print .= '</table>';
-						return $print;//$row->attach;
-						//return print_r($question, true);//$row->attach;
-					}];*/
-					//$this->cbView('interviewStats',array('page_title'=>'Статистика','row'=>DB::table('interviews')->get()))
+			$this->col[] = ["label"=>"ФИО","name"=>"name"];
+			$this->col[] = ["label"=>"Отзыв","name"=>"comment"];
+			$this->col[] = ["label"=>"Есть ответ","name"=>"answered","callback"=>function($row){return '<input type="checkbox" id="checked" name="checked" value="1" '.($row->answered?'checked':'').'>';}];
+			$this->col[] = ["label"=>"Размещено на сайте","name"=>"published","callback"=>function($row){return '<input type="checkbox" id="checked" name="checked" value="1" '.($row->published?'checked':'').'>';}];
+			$this->col[] = ["label"=>"Ответить на отзыв","name"=>"answered","callback"=>function($row){return "<button>Ответить</button>";}];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
-			//$custom_element = view('interview')->render();
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Заголовок','name'=>'title','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			//$this->form[] = ['label'=>'Вопросы','name'=>'options','type'=>'json','validation'=>'required','width'=>'col-sm-10']
-			$this->form[] = ['label'=>'Вопросы','name'=>'options','type'=>'custom','width'=>'col-sm-10'	, 'html'=> $custom_element];
+			$this->form[] = ['label'=>'ФИО','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
+			$this->form[] = ['label'=>'Телефон/эл.адрес','name'=>'phone','type'=>'text','validation'=>'required','width'=>'col-sm-10','placeholder'=>'You can only enter the number only'];
+			$this->form[] = ['label'=>'Отзыв','name'=>'comment','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Ответ на отзыв','name'=>'answer','type'=>'wysiwyg','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Разместить на сайте','name'=>'published','type'=>'checkbox','validation'=>'required|min:1|max:255','width'=>'col-sm-10','dataenum'=>'1'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ["label"=>"Title","name"=>"title","type"=>"text","required"=>TRUE,"validation"=>"required|string|min:3|max:70","placeholder"=>"You can only enter the letter only"];
-			//$this->form[] = ["label"=>"Options","name"=>"options","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Name","name"=>"name","type"=>"text","required"=>TRUE,"validation"=>"required|string|min:3|max:70","placeholder"=>"You can only enter the letter only"];
+			//$this->form[] = ["label"=>"Phone","name"=>"phone","type"=>"number","required"=>TRUE,"validation"=>"required|numeric","placeholder"=>"You can only enter the number only"];
+			//$this->form[] = ["label"=>"Comment","name"=>"comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Answered","name"=>"answered","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Published","name"=>"published","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
 			# OLD END FORM
 
 			/*
@@ -142,7 +82,7 @@
 	        |
 	        */
 	        $this->addaction = array();
-					$this->addaction[] = ['label'=>'Голосовать','url'=>CRUDBooster::mainpath('vote/[id]'), 'icon'=>'fa fa-check', 'color'=>'success'];
+
 
 	        /*
 	        | ----------------------------------------------------------------------

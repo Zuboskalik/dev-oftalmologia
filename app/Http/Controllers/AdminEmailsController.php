@@ -1,11 +1,25 @@
 <?php namespace App\Http\Controllers;
 
 	use Session;
-	use Request;
+	//use Request;
 	use DB;
 	use CRUDBooster;
+	use Illuminate\Http\Request;
 
 	class AdminEmailsController extends \crocodicstudio\crudbooster\controllers\CBController {
+
+			public function SendMail(Request $request, $email) {
+
+			$data = [];
+
+			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    	return "E-mail адрес '$email' указан неверно!.\n";
+
+			//	 $email = 'zuboskalik@gmail.com';
+			return 	CRUDBooster::sendEmail(['to'=>$email,'data'=>$data,'template'=>'test_email_template','attachments'=>[]]);
+			}
+
+			}
 
 	    public function cbInit() {
 
