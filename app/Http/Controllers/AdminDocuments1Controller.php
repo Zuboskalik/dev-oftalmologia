@@ -31,7 +31,7 @@
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
 			$this->col[] = ["label"=>"Наименование","name"=>"title"];
-			$this->col[] = ["label"=>"Заголовок URL","name"=>"header_URL"];
+			//$this->col[] = ["label"=>"Заголовок URL","name"=>"header_URL"];
 			$this->col[] = ["label"=>"Скопировать ссылку на документ","name"=>"attach",
 											"callback"=>
 											function($row)
@@ -44,8 +44,8 @@
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
 			$this->form[] = ['label'=>'Наименование','name'=>'title','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			$this->form[] = ['label'=>'Заголовок URL','name'=>'header_URL','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Группа','name'=>'document_groups_id','type'=>'select2','validation'=>'required|integer','width'=>'col-sm-10','datatable'=>'document_groups,title'];
+			//$this->form[] = ['label'=>'Заголовок URL','name'=>'header_URL','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Группа','name'=>'document_groups_id','type'=>'select2','validation'=>'integer','width'=>'col-sm-10','datatable'=>'document_groups,title'];
 			$this->form[] = ['label'=>'Прикрепленный документ','name'=>'attach','type'=>'upload','validation'=>'required|mimes:doc,docx,txt,pdf','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Отображать на стр. "О нас"','name'=>'checkbox_show_about','type'=>'checkbox','width'=>'col-sm-10','dataenum'=>'1'];
 			# END FORM DO NOT REMOVE THIS LINE
@@ -208,12 +208,12 @@
 						background-color: #4CAF50; /* Green */
 						border: none;
 						color: white;
-						padding: 8px;
+						padding: 6px;
 						text-align: center;
 						text-decoration: none;
 						display: inline-block;
-						font-size: 16px;
-						width: 150px;
+						font-size: 14px;
+						width: 120px;
 						border-radius: 12px;
 						transition: all .5s;
 					}
@@ -285,6 +285,7 @@
 	        //Your code here
 					//dd($postdata);
 					$postdata['checkbox_show_about']=$postdata['checkbox_show_about']?1:0;
+					$postdata['document_groups_id']=$postdata['document_groups_id']?$postdata['document_groups_id']:0;
 	    }
 
 	    /*
@@ -310,6 +311,7 @@
 	    public function hook_before_edit(&$postdata,$id) {
 	        //Your code here
 					$postdata['checkbox_show_about']=$postdata['checkbox_show_about']?1:0;
+					$postdata['document_groups_id']=$postdata['document_groups_id']?$postdata['document_groups_id']:0;
 
 	    }
 

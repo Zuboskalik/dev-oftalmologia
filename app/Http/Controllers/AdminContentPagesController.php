@@ -35,7 +35,7 @@
 														function($row)
 																{
 																	//dd($row->attach;);
-																	return "<a href=\"content_pages/detail/".$row->id."\">Ссылка</a>";//$row->attach;
+																	return "<a href=\"content_pages/detail/".$row->id."\">".Request::root()."/content_pages/detail/".$row->id."</a>";//$row->attach;
 																}];
 
 			$this->col[] = ["label"=>"Скопировать ссылку","name"=>"id", "callback"=>
@@ -216,12 +216,12 @@
 						background-color: #4CAF50; /* Green */
 						border: none;
 						color: white;
-						padding: 8px;
+						padding: 6px;
 						text-align: center;
 						text-decoration: none;
 						display: inline-block;
-						font-size: 16px;
-						width: 150px;
+						font-size: 14px;
+						width: 120px;
 						border-radius: 12px;
 						transition: all .5s;
 					}

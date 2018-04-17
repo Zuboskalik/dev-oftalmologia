@@ -37,7 +37,7 @@
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
 			$this->form[] = ['label'=>'Наименование','name'=>'title','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'Напишите наименование'];
-			$this->form[] = ['label'=>'Описание','name'=>'description','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Описание','name'=>'description','type'=>'wysiwyg','validation'=>'required|min:1|max:5000','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Изображение','name'=>'image','type'=>'upload','validation'=>'image','width'=>'col-sm-10','help'=>'File types support : JPG, JPEG, PNG, GIF, BMP'];
 			$this->form[] = ['label'=>'Вес','name'=>'weight','type'=>'number','validation'=>'integer|min:0','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'SEO Title','name'=>'seo_title','type'=>'text','width'=>'col-sm-10'];
