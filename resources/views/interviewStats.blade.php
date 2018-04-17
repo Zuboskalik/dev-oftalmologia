@@ -12,13 +12,15 @@
           <div id="details">
             <!--<div v-for="object in objects">-->
               <h3>Опрос @{{'"'+title+'"'}}</h3><br>
-              <table v-for="q in options" style="width:35%" border="2">
-  							<tr>
-                  <td colspan="2"> @{{'Вопрос #'+q.id+': '+q.title}}</td>
-                </tr>
+              <table class="table" v-for="q in options" style="width:35%">
+  							<thead>
+                  <th colspan="2"> @{{'Вопрос #'+q.id+': '+q.title}}</th>
+                </thead>
+                <tbody>
 								<tr v-for="a in q.answers">
                   <td style="width:75%" >@{{a.title}}</td><td>@{{a.count}}</td>
                 </tr>
+                </tbody>
   						</table>
               <hr>
             <!--</div>-->

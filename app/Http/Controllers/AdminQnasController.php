@@ -5,12 +5,12 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminComments25Controller extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminQnasController extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "name";
+			$this->title_field = "title";
 			$this->limit = "20";
 			$this->orderby = "id,desc";
 			$this->global_privilege = false;
@@ -25,34 +25,32 @@
 			$this->button_filter = true;
 			$this->button_import = false;
 			$this->button_export = false;
-			$this->table = "comments";
+			$this->table = "qnas";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
 			$this->col[] = ["label"=>"ФИО","name"=>"name"];
-			$this->col[] = ["label"=>"Отзыв","name"=>"comment"];
+			$this->col[] = ["label"=>"Вопрос","name"=>"title"];
 			$this->col[] = ["label"=>"Есть ответ","name"=>"answer","callback"=>function($row){return '<input class="css-checkbox" type="checkbox" disabled readonly '.(strip_tags($row->answer)?'checked':'').'>';}];
-			$this->col[] = ["label"=>"Размещено на сайте","name"=>"published","callback"=>function($row){return '<input class="css-checkbox" type="checkbox" disabled readonly '.($row->published?'checked':'').'>';}];
-			//$this->col[] = ["label"=>"Ответить на отзыв","name"=>"answered","callback"=>function($row){return "<button>Ответить</button>";}];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
 			$this->form[] = ['label'=>'ФИО','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
-			$this->form[] = ['label'=>'Телефон/эл.адрес','name'=>'phone','type'=>'text','validation'=>'required','width'=>'col-sm-10','placeholder'=>'You can only enter the number only'];
-			$this->form[] = ['label'=>'Отзыв','name'=>'comment','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Ответ на отзыв','name'=>'answer','type'=>'wysiwyg','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Телефон/эл.адрес','name'=>'phone','type'=>'number','width'=>'col-sm-10','placeholder'=>'You can only enter the number only'];
+			$this->form[] = ['label'=>'Вопрос','name'=>'title','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
+			$this->form[] = ['label'=>'Ответ','name'=>'answer','type'=>'wysiwyg','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Разместить на сайте','name'=>'published','type'=>'checkbox','width'=>'col-sm-10','dataenum'=>'1'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ["label"=>"Name","name"=>"name","type"=>"text","required"=>TRUE,"validation"=>"required|string|min:3|max:70","placeholder"=>"You can only enter the letter only"];
-			//$this->form[] = ["label"=>"Phone","name"=>"phone","type"=>"number","required"=>TRUE,"validation"=>"required|numeric","placeholder"=>"You can only enter the number only"];
-			//$this->form[] = ["label"=>"Comment","name"=>"comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Answered","name"=>"answered","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"Published","name"=>"published","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ['label'=>'ФИО','name'=>'name','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
+			//$this->form[] = ['label'=>'Телефон/эл.адрес','name'=>'phone','type'=>'number','width'=>'col-sm-10','placeholder'=>'You can only enter the number only'];
+			//$this->form[] = ['label'=>'Вопрос','name'=>'title','type'=>'text','validation'=>'required|string|min:3|max:70','width'=>'col-sm-10','placeholder'=>'You can only enter the letter only'];
+			//$this->form[] = ['label'=>'Ответ','name'=>'answer','type'=>'wysiwyg','width'=>'col-sm-10'];
+			//$this->form[] = ['label'=>'Разместить на сайте','name'=>'published','type'=>'checkbox','validation'=>'required|min:1|max:255','width'=>'col-sm-10','dataenum'=>'1'];
 			# OLD END FORM
 
 			/*
@@ -82,7 +80,7 @@
 	        |
 	        */
 	        $this->addaction = array();
-					$this->addaction[] = ['label'=>'Ответить','url'=>CRUDBooster::mainpath('edit/[id]'), 'icon'=>'fa fa-check', 'color'=>'warning'];
+					$this->addaction[] = ['label'=>'Ответить на вопрос','url'=>CRUDBooster::mainpath('edit/[id]'), 'icon'=>'fa fa-check', 'color'=>'warning'];
 
 	        /*
 	        | ----------------------------------------------------------------------
@@ -299,6 +297,7 @@
 	    */
 	    public function hook_before_edit(&$postdata,$id) {
 					$postdata['published']=$postdata['published']?1:0;
+
 	    }
 
 	    /*
