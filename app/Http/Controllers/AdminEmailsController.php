@@ -8,17 +8,19 @@
 
 	class AdminEmailsController extends \crocodicstudio\crudbooster\controllers\CBController {
 
-			public function SendMail(Request $request, $email) {
+			public function sendMail($email, $name = 'Пользователь') {
 
-			$data = [];
+				$data = ['testone'=>'Hello there', 'testtwo'=>$name];
 
-			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    	return "E-mail адрес '$email' указан неверно!.\n";
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+	    		return "E-mail адрес '$email' указан неверно!.\n";
+				}
 
-			//	 $email = 'zuboskalik@gmail.com';
-			return 	CRUDBooster::sendEmail(['to'=>$email,'data'=>$data,'template'=>'test_email_template','attachments'=>[]]);
-			}
+				//	 $email = 'zuboskalik@gmail.com';//пример
+					//return array('email'=>$email,'name'=>$name, 'data'=>$data);
 
+					CRUDBooster::sendEmail(['to'=>$email,'data'=>$data,'template'=>'test_email_template','attachments'=>[]]);
+					return "Письмо для пользователя '$name' отправлено на E-mail адрес '$email'";
 			}
 
 	    public function cbInit() {

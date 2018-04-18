@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/vote/{id}', 'AdminInterviewsController@getVote');
+Route::get('/sendmail/{email}/{name?}', 'AdminEmailsController@sendMail');
